@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  chapinero:
+    image: postgres:13
+    container_name: postgres_chapinero
+    environment:
+      POSTGRES_DB: universidad
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - chapinero_data:/var/lib/postgresql/data
+      - ./sql/chapinero.sql:/docker-entrypoint-initdb.d/chapinero.sql
+    networks:
+      - bdd_network
+
+  macarena:
+    image: postgres:13
+    container_name: postgres_macarena
+    environment:
+      POSTGRES_DB: universidad
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    volumes:
+      - macarena_data:/var/lib/postgresql/data
+      - ./sql/macarena.sql:/docker-entrypoint-initdb.d/macarena.sql
+    networks:
+      - bdd_network
+
+  ciudad_bolivar:
+    image: postgres:13
+    container_name: postgres_ciudad_bolivar
+    environment:
+      POSTGRES_DB: universidad
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5434:5432"
+    volumes:
+      - ciudad_bolivar_data:/var/lib/postgresql/data
+      - ./sql/ciudad_bolivar.sql:/docker-entrypoint-initdb.d/ciudad_bolivar.sql
+    networks:
+      - bdd_network
+
+volumes:
+  chapinero_data:
+  macarena_data:
+  ciudad_bolivar_data:
+
+networks:
+  bdd_network:
+    driver: bridge
